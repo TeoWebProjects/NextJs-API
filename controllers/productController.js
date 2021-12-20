@@ -32,7 +32,7 @@ const getProductById = async (req, res) => {
 const getProductsByCategory = async (req, res) => {
   // const products = await Product.find({ category: req.params.id }).populate('category')
   try {
-    const products = await Product.find({ category: req.params.id })
+    const products = await Product.find({ category: req.params.id }).populate('category')
     !products || products.length === 0 ? res.status(404).json({ message: 'Product Not Found!' }) : res.json(products)
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -115,4 +115,22 @@ const deleteProduct = async (req, res) => {
   }
 }
 
-export { getProducts, getProductsByCategory, getProductById, createProduct, updateProduct, deleteProduct }
+const searchProductsByName = async (req, res) => {
+  const products = await Product.find({ name: { $regex: req.params.name, $options: 'i' } })
+
+  if (products) {
+    res.json(products)
+  } else {
+    res.status(404).json({ message: 'Product Not Found!' })
+  }
+}
+
+export {
+  getProducts,
+  getProductsByCategory,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  searchProductsByName,
+}

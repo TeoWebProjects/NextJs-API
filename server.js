@@ -9,6 +9,7 @@ import categoryRoutes from './routes/categoryRoute.js'
 import orderRoutes from './routes/orderRoute.js'
 import uploadRoutes from './routes/uploadRoute.js'
 import userRoutes from './routes/userRoutes.js'
+import brandRoutes from './routes/brandRoutes.js'
 
 const app = express()
 
@@ -29,6 +30,7 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 app.use('/api/users', userRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/categories', categoryRoutes)
+app.use('/api/brands', brandRoutes)
 app.use('/api/upload', uploadRoutes)
 app.use('/api/orders', orderRoutes)
 

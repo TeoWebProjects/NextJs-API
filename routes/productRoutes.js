@@ -6,13 +6,15 @@ import {
   createProduct,
   updateProduct,
   deleteProduct,
+  searchProductsByName,
 } from '../controllers/productController.js'
 import { admin, protect } from '../middleware/authMiddleware.js'
 const router = express.Router()
 
 // GET method route
 
-router.get('/', protect, admin, getProducts)
+router.get('/', getProducts)
+router.get('/search/:name', searchProductsByName)
 router.post('/', protect, admin, createProduct)
 router.get('/:id', getProductById)
 router.put('/:id', protect, admin, updateProduct)

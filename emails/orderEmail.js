@@ -54,16 +54,16 @@ export const orderEmail = (items) => {
                     <th>Ονομα</th>
                     <th>Τιμή</th>
                     <th>Ποσότητα</th>
-                    <th>Τιμή με Φ.Π.Α
-                  </th>
+                    <th>Τιμή με Φ.Π.Α</th>
                   </tr>
                   ${items.map((item) => {
                     html = `<tr>
                       <td>${item.name}</td>
                       <td>${item.price}€</td>
-                      <td>x${item.qty}</td>
+                      <td>x${item.quantity}</td>
                       <td>${item.price}€</td>
-                  </tr>`
+                     </tr>`
+
                     return html
                   })}
               </table>

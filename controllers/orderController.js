@@ -36,26 +36,40 @@ async function main(email, items) {
 // @route   POST /api/orders
 // @access  Private
 const addOrderItems = async (req, res) => {
-  const { orderItems, shippingAddress, paymentMethod, shippingPrice, totalPrice } = req.body
+  try {
+    const { orderItems, shippingAddress, paymentMethod, shippingPrice, totalPrice, user_id } = req.body
 
-  if (orderItems && orderItems.length === 0) {
-    res.status(400)
-    res.json({ message: 'No orders...' })
-    return
-  } else {
-    const order = new Order({
-      orderItems,
-      shippingAddress,
-      paymentMethod,
-      shippingPrice,
-      totalPrice,
-    })
+    if (orderItems && orderItems.length === 0) {
+      res.status(400)
+      res.json({ message: 'No orders...' })
+      return
+    } else {
+      const order = new Order({
+        user_id,
+        orderItems,
+        shippingAddress,
+        paymentMethod,
+        shippingPrice,
+        totalPrice,
+      })
 
-    const createdOrder = await order.save()
+      const createdOrder = await order.save()
 
-    res.status(201).json(createdOrder)
-    main(shippingAddress.email, orderItems)
+      res.status(201).json(createdOrder)
+      // main(shippingAddress.email, orderItems)
+    }
+  } catch (error) {
+    console.log(error.message)
   }
 }
 
-export { addOrderItems }
+const getOrdersByUserId = async (req, res) => {
+  try {
+    const orders = await Order.find({ user_id: req.params.id }).populate('user_id')
+    !orders ? res.status(404).json({ message: 'Orders Not Found!' }) : res.json(orders)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+export { addOrderItems, getOrdersByUserId }
